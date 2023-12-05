@@ -1,0 +1,220 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+
+:root {
+    --background-color: #7414bd;
+    --font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --font-size: calc(12px + 1vw);
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    user-select: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+}
+
+html, body {
+    background-color: var(--background-color);
+    color-scheme: var(--background-color);
+}
+
+body {
+    padding: 10px 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    perspective: 100px;
+    align-items: center;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    font-family: var(--font-family);
+    color: #fcfcfc;
+}
+
+.overlay {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    will-change: opacity;
+}
+
+body.active .overlay {
+    display: none !important;
+}
+
+#start-game {
+    transition: all 0.4s ease;
+    position: fixed;
+    z-index: 1003;
+    bottom: 70px;
+    left: 50%;
+    width: calc(100vw - 45px);
+    max-width: 350px;
+    background-color: #fcfcfc;
+    border-radius: 4px;
+    padding: 2px 0;
+    color: #222;
+    overflow: hidden;
+    transform: translateX(-50%) translateY(0%);
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+#start-game .btn {
+    background-color: rgba(0 0 0 / 2%);
+    border-bottom: 1px solid rgba(0 0 0 / 8%);
+    padding: 15px 0;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+}
+#start-game .btn:hover {
+    background-color: rgba(0 0 0 / 10%);
+}
+
+#start-game .btn:last-child {
+    border: none !important;
+}
+
+body:not(.start) #start-game {
+    transform: translateX(-50%) translateY(300%);
+}
+
+body:not(.active) #board {
+    transform: scale(0) translateY(-200%);
+    opacity: 0;
+}
+
+#board {
+    width: calc(100vw - 32px);
+    height: calc(100vw - 32px);
+    max-width: 800px;
+    max-height: 800px;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 7px;
+    background-color: rgba(4 0 4 / 30%);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    transition: all 820ms ease;
+    position: relative;
+    z-index: 1;
+}
+
+#board label {
+    background-color: var(--background-color);
+    position: relative;
+}
+
+#board input {
+    background-color: var(--background-color);
+    border-radius: 0;
+    opacity: 0;
+    border: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+#board input + div {
+    background-color: var(--background-color);
+    transition: all 400ms ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    cursor: default;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column nowrap;
+}
+
+#board input.o + div div:nth-child(1) {
+    background-color: var(--background-color);
+    border: calc(5px + 0.5vw) solid #222;
+    border-radius: 50%;
+    width: 67%;
+    height: 67%;
+}
+
+#board input.o + div div:nth-child(2) {
+    display: none;
+}
+
+#board input.x + div div {
+    position: absolute;
+    background-color: #222;
+    width: 70%;
+    height: calc(5px + 0.5vw);
+}
+
+#board input.x + div div:nth-child(1) {
+    transform: rotate(45deg);
+}
+
+#board input.x + div div:nth-child(2) {
+    transform: rotate(-45deg);
+}
+
+#board input:not(:disabled) + div {
+    transform: scale(0.2);
+    opacity: 0;
+}
+
+#message {
+    position: fixed;
+    z-index: 2000;
+    top: 20%;
+    text-align: center;
+    font-size: calc(25px + 3vw);
+    transition: all 300ms ease;
+}
+
+body:not(.message) #message {
+    transform: scale(0) translateY(200%);
+    opacity: 0;
+}
+
+#message span {
+    display: none;
+}
+
+.welcome #message .wm,
+.you-win #message .yw,
+.bot-win #message .by,
+.x-win #message .xw,
+.o-win #message .ow,
+.equal #message .ew {
+    display: contents !important;
+}
+
+#message span b {
+    font-size: calc(45px + 5vw);
+    font-weight: normal;
+}
+
+#message span a {
+    font-size: calc(18px + 0.4vw);
+    text-decoration: none;
+    font-weight: normal;
+    color: #ccc;
+}
+
+#message span a:hover {
+    text-decoration: underline #0d9be2;
+}
